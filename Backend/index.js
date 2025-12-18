@@ -1,8 +1,10 @@
-const express = require("express");
+ const express = require("express");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
 const userRoute = require("./Routes/userRoute");
+const messageRoute = require("./Routes/messageRoutes");
 
 const app = express();
 app.use(express.json()); 
@@ -11,7 +13,9 @@ const URI = process.env.MONGODB_URI;
 
 const PORT = process.env.PORT || 3001;
 
+app.use(cookieParser);
 app.use("/api",userRoute);
+app.use("/api",messageRoute);
 
 mongoose.connect(URI).
 then(() => {

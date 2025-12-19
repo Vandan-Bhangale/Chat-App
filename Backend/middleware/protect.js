@@ -15,8 +15,17 @@ const protect = async (req,res,next) => {
             return res.status(401).json({error:"Unauthorized - No token provide."});
         }
 
-        const user = await User.findById(decode.userId)
+        const user = await User.findById(decode.userId);
+
+        if(!user) {
+            return res.status(404).json({error:"User not found."});
+        }
+
+        req.user = user;
+        next();
     } catch (err) {
         return res.status(500).json({error:"Internal Server error."});
     }
 }
+
+module.exports = protect;

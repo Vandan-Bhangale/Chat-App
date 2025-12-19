@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
-const userRoute = require("./Routes/userRoute");
+const userRoute = require("./Routes/authRoute");
 const messageRoute = require("./Routes/messageRoutes");
 
 const app = express();
@@ -13,7 +13,7 @@ const URI = process.env.MONGODB_URI;
 
 const PORT = process.env.PORT || 3001;
 
-app.use(cookieParser);
+app.use(cookieParser());
 app.use("/api",userRoute);
 app.use("/api",messageRoute);
 

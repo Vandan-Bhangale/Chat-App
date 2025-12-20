@@ -1,12 +1,25 @@
-import './App.css'
+import "./App.css";
+import {
+  Route,
+  Routes,
+  BrowserRouter as Router,
+  Navigate,
+} from "react-router-dom";
+import HomePage from "./Pages/HomePage";
+import NavBar from "./components/NavBar";
+
 
 function App() {
-
   return (
     <>
-      <h1 className='text-red-500 font-bold text-4xl'>Chat App</h1>
+        <Router>
+          <NavBar></NavBar>
+          <Routes>
+            <Route path="/" element={<HomePage />}></Route>
+          </Routes>
+        </Router>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,4 +1,5 @@
 import image1 from "../assets/Image1.webp";
+import { Link } from "react-router-dom";
 
 function Hero() {
   return (
@@ -16,7 +17,7 @@ function Hero() {
           <p>Be free to speak in group chats.</p>
         </div>
 
-        <button className="btn btn-warning mt-8 border rounded-2xl h-10 w-30 font-bold text-white">Get Started</button>
+        <Link to="/register" className="btn btn-warning mt-8 border rounded-2xl h-10 w-30 font-bold text-white">Get Started</Link>
 
         <div className="HeroImg mt-8 inline-block p-0.75 rounded-xl bg-linear-to-r from-orange-500 via-yellow-500 to-red-500">
           <img src={image1} alt="Image" className="w-64 md:w-96 lg:w-125 border-none rounded-2xl"/>

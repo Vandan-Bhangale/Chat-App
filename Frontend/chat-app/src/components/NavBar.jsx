@@ -3,7 +3,7 @@ import Logo from "../assets/Logo.png";
 function NavBar() {
   return (
     <>
-      <nav className="fixed top-0 w-full z-50">
+      <nav className="w-full z-50">
         <div className="flex items-center justify-between px-6 py-4">
           {/* Logo */}
           <div className="flex items-center gap-2 font-bold text-xl">

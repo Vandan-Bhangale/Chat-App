@@ -1,17 +1,42 @@
 import { Form, Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
-const LoginSchema = Yup.object({
-  email: Yup.string().email("Invalid email").required("Required"),
-  password: Yup.string().min(6).required("Required"),
-});
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
+
+  const LoginSchema = Yup.object({
+    email: Yup.string().email("Invalid email").required("Required"),
+    password: Yup.string().min(6).required("Required"),
+  });
+
+  const handleLogin = async (values) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_GENERAL_API}/api/login`,
+        values,
+        { withCredentials: true }
+      );
+
+      // console.log(response);
+
+      if (response.data.message == "Login successful") {
+        // console.log("User login successfull.");
+        navigate("/home");
+        toast.success("Login successfull");
+      }
+    } catch (error) {
+      console.log("Error while login user: ", error.message);
+    }
+  };
   return (
     <>
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={LoginSchema}
+        onSubmit={handleLogin}
       >
         {() => (
           <Form className="max-w-md mx-auto mt-20 p-8 bg-white rounded-2xl shadow-lg space-y-6">

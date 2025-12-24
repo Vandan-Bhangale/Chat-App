@@ -1,14 +1,34 @@
 import { Form, Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast"
 
-const SignupSchema = Yup.object({
+function Signup() {
+
+  const navigate = useNavigate();
+
+  const SignupSchema = Yup.object({
   name: Yup.string().required("Required"),
   email: Yup.string().email("Invalid email").required("Required"),
   password: Yup.string().min(6).required("Required"),
   gender: Yup.string().required("Please select your gender"),
 });
 
-function Signup() {
+const handleSubmit = async (values) => {
+    try {
+        const response = await axios.post(`${import.meta.env.VITE_GENERAL_API}/api/register`,values,{withCredentials:true});
+        // console.log(response);
+
+        if(response.data.message == "Register successfully") {
+          // console.log("User registered successfully.");
+          navigate("/login");
+          toast.success("Registration successfull.");
+        }
+    } catch (error) {
+      console.log("Error while sign up: ",error.message);
+    }
+}
   return (
     <>
       <Formik
@@ -19,6 +39,7 @@ function Signup() {
           gender: "",
         }}
         validationSchema={SignupSchema}
+        onSubmit={handleSubmit}
       >
         {() => (
           <Form className="max-w-md mx-auto mt-20 p-8 bg-white rounded-2xl shadow-lg space-y-6">

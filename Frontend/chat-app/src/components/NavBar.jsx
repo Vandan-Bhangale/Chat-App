@@ -1,4 +1,5 @@
 import Logo from "../assets/Logo.png";
+import {Link} from "react-router-dom";
 
 function NavBar() {
   return (
@@ -6,14 +7,14 @@ function NavBar() {
       <nav className="w-full z-50">
         <div className="flex items-center justify-between px-6 py-4">
           {/* Logo */}
-          <div className="flex items-center gap-2 font-bold text-xl">
+          <Link to="/" className="flex items-center gap-2 font-bold text-xl">
             <img
               src={Logo}
               alt="ChatApp logo"
               className="w-10 h-10 object-contain bg-white-500 text-2xl"
             />
             <span>Talkie</span>
-          </div>
+          </Link>
 
           {/* Links */}
           <div className="hidden md:flex items-center gap-6 text-gray-400">

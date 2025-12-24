@@ -2,12 +2,14 @@
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
+const cors = require("cors");
 
 const authRoute = require("./Routes/authRoute");
 const messageRoute = require("./Routes/messageRoutes");
 const userRoute = require("./Routes/userRoute");
 
 const app = express();
+app.use(cors({origin:process.env.CORS_ORIGIN,credentials:true}));
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
 const URI = process.env.MONGODB_URI;

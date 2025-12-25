@@ -71,3 +71,25 @@ exports.postLogin = async (req, res) => {
   }
 };
 
+exports.getLogout = async (req,res) => {
+    try {
+      res.cookie("jwt","", {
+        maxAge:0
+      });
+
+      res.status(200).json({message:"Logout successful"});
+    } catch (err) {
+      console.log("Error while logout the uesr: ",err.message);
+      res.status(500).json({message:"Internal server error"});
+    }
+}
+
+exports.getMe = async (req,res) => {
+  try {
+    res.status(200).json({user:req.user});
+  } catch (err) {
+    console.log('Error while checking login status: ',err.message);
+    res.status(500).json({message: "Internal server error."});
+  }
+}
+

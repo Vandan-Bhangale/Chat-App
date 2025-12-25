@@ -1,7 +1,12 @@
+import { useContext } from "react";
+import { AuthContext } from "../../store/Context/authContext";
 import Logo from "../assets/Logo.png";
 import {Link} from "react-router-dom";
 
 function NavBar() {
+
+  const {user,isAuthenticated,logout} = useContext(AuthContext);
+
   return (
     <>
       <nav className="w-full z-50">
@@ -24,9 +29,13 @@ function NavBar() {
             <a href="#about" className="hover:text-white transition-colors">
               About
             </a>
-            <a href="/login" className="hover:text-white transition-colors">
+            {isAuthenticated ? (
+              <button onClick={logout}>Logout</button>
+            ): (
+              <a href="/login" className="hover:text-white transition-colors">
               Login
             </a>
+            )}
           </div>
         </div>
       </nav>

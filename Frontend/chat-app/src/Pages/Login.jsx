@@ -3,9 +3,12 @@ import * as Yup from "yup";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../store/Context/authContext";
+import { useContext } from "react";
 
 function Login() {
   const navigate = useNavigate();
+  const {setUser} = useContext(AuthContext);
 
   const LoginSchema = Yup.object({
     email: Yup.string().email("Invalid email").required("Required"),
@@ -24,6 +27,7 @@ function Login() {
 
       if (response.data.message == "Login successful") {
         // console.log("User login successfull.");
+        setUser(response.data.user);
         navigate("/home");
         toast.success("Login successfull");
       }

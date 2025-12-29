@@ -3,12 +3,12 @@ import * as Yup from "yup";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../store/Context/authContext";
+import { AuthContext } from "../Context/authContext.jsx";
 import { useContext } from "react";
 
 function Login() {
   const navigate = useNavigate();
-  const {setUser} = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
 
   const LoginSchema = Yup.object({
     email: Yup.string().email("Invalid email").required("Required"),
@@ -28,10 +28,11 @@ function Login() {
       if (response.data.message == "Login successful") {
         // console.log("User login successfull.");
         setUser(response.data.user);
-        navigate("/home");
+        navigate("/chatPage");
         toast.success("Login successfull");
       }
     } catch (error) {
+      toast.error("Login failed. Please check your credentials.");
       console.log("Error while login user: ", error.message);
     }
   };

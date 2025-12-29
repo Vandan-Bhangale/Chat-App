@@ -11,6 +11,8 @@ import NavBar from "./components/NavBar";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import Home from "./Pages/Home";
+import SideBar from "./components/SideBar";
+import ChatPage from "./Pages/ChatPage";
 
 
 function App() {
@@ -27,6 +29,8 @@ function App() {
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Signup />}></Route>
             <Route path="/home" element={<Home />}></Route>
+            <Route path="/sideBar" element={<SideBar />}></Route>
+            <Route path="/chatPage" element={<ChatPage />}></Route>
           </Routes>
         </Router>
     </>

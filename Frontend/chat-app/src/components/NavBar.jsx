@@ -1,11 +1,10 @@
 import { useContext } from "react";
-import { AuthContext } from "../../store/Context/authContext";
+import { AuthContext } from "../Context/authContext.jsx";
 import Logo from "../assets/Logo.png";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function NavBar() {
-
-  const {user,isAuthenticated,logout} = useContext(AuthContext);
+  const { user, isAuthenticated, logout } = useContext(AuthContext);
 
   return (
     <>
@@ -31,10 +30,10 @@ function NavBar() {
             </a>
             {isAuthenticated ? (
               <button onClick={logout}>Logout</button>
-            ): (
+            ) : (
               <a href="/login" className="hover:text-white transition-colors">
-              Login
-            </a>
+                Login
+              </a>
             )}
           </div>
         </div>

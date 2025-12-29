@@ -20,7 +20,7 @@ exports.postRegister = async (req,res) => {
 
         await newUser.save();
 
-        res.status(200).json({message:"User saved successfully",newUser});
+        res.status(200).json({message:"Register successfully",newUser});
     } catch(err) {
 
         //Checking for duplicate emails.

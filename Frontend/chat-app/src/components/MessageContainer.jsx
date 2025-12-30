@@ -1,13 +1,14 @@
+import useConversation from "../Store/useConversation";
 import MessageInput from "./MessageInput";
 import Messages from "./Messages";
 import NoChatSelected from "./NoChatSelected";
 
 function MessageContainer() {
-  const noChatSelected = true;
+  const {selectedConversation, setSelectedConversation} = useConversation();
 
   return (
     <>
-      {noChatSelected ? (
+      {!selectedConversation ? (
         <div className="w-[70%] h-full flex items-center justify-center">
           <NoChatSelected />
         </div>
@@ -18,10 +19,10 @@ function MessageContainer() {
             <div className="flex items-center gap-3">
               <div className="avatar online">
                 <div className="w-10 rounded-full">
-                  <img src="https://img.daisyui.com/images/profile/demo/gordon@192.webp" />
+                  <img src={selectedConversation.profilePic} />
                 </div>
               </div>
-              <p className="font-semibold">John Doe</p>
+              <p className="font-semibold">{selectedConversation.name}</p>
             </div>
 
             <button className="text-gray-500 hover:text-gray-700">⋮</button>

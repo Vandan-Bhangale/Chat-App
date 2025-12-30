@@ -11,13 +11,13 @@ function Conversations() {
       setLoading(true);
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/users/getUser`
+          `${import.meta.env.VITE_GENERAL_API}/api/users/getUser`,
+          { withCredentials: true }
         );
-        const users = Array.isArray(response.data)
-        ? response.data
-        : response.data.users || [];
+        
+        console.log("Users fetched:", response.data);
 
-      setConversations(users);
+        setConversations(response.data);
       } catch (error) {
         console.error(error);
       } finally {

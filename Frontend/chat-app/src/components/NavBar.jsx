@@ -2,9 +2,16 @@ import { useContext } from "react";
 import { AuthContext } from "../Context/authContext.jsx";
 import Logo from "../assets/Logo.png";
 import { Link } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 function NavBar() {
   const { user, isAuthenticated, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/");
+  }
 
   return (
     <>
@@ -29,7 +36,7 @@ function NavBar() {
               About
             </a>
             {isAuthenticated ? (
-              <button onClick={logout}>Logout</button>
+              <button onClick={handleLogout} className="hover:cursor-pointer hover:text-white">Logout</button>
             ) : (
               <a href="/login" className="hover:text-white transition-colors">
                 Login

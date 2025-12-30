@@ -32,7 +32,7 @@ exports.sendMessage = async (req,res) => {
 
         res.status(200).json(newMessage);
     } catch (err) {
-        console.log(err);
+        console.log("Error while sending message: ",err.message);
         return res.status(500).json({error:"Internal server error."});
     }
 }

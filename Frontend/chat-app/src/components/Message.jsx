@@ -23,7 +23,7 @@ function Message({ message }) {
         {/* Message Bubble */}
         <div className={`chat-bubble ${bubbleColor} shadow-md max-w-[70%]`}>
           <p className="leading-relaxed">{message.message}</p>
-          <p className="text-sm text-white">
+          <p className="text-sm text-white flex justify-end">
             {new Date(message.createdAt).toLocaleTimeString([], {
               hour: "2-digit",
               minute: "2-digit",

@@ -7,8 +7,10 @@ const cors = require("cors");
 const authRoute = require("./Routes/authRoute");
 const messageRoute = require("./Routes/messageRoutes");
 const userRoute = require("./Routes/userRoute");
+const {app} = require("./Socket/socket");
+const {server} = require("./Socket/socket")
 
-const app = express();
+// const app = express();
 app.use(cors({origin:process.env.CORS_ORIGIN,credentials:true}));
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
@@ -23,7 +25,7 @@ app.use("/api",messageRoute);
 
 mongoose.connect(URI).
 then(() => {
-    app.listen(PORT,() => {
+    server.listen(PORT,() => {
         console.log('Connectiong to DB is successfull.');
         console.log(`Server is now live on http://localhost:${PORT}`);
     });

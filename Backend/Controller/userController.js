@@ -2,7 +2,7 @@ const User = require("../Models/userModel");
 
 exports.getUser = async (req,res) => {
     try {
-        console.log("Get user controller hit")
+        // console.log("Get user controller hit")
         const loggedInUser = req.user._id;
         const filterUser = await User.find({_id:{$ne: loggedInUser}}).select("-password");
 

@@ -1,7 +1,9 @@
+import { useContext } from "react";
 import useConversation from "../Store/useConversation";
 import MessageInput from "./MessageInput";
 import Messages from "./Messages";
 import NoChatSelected from "./NoChatSelected";
+import { SocketContext } from "../Context/SocketContext";
 
 function MessageContainer() {
   const {selectedConversation, setSelectedConversation} = useConversation();

@@ -13,9 +13,16 @@ export const SocketProvider = ({ children }) => {
     if (user) {
       const newSocket = io("http://localhost:3000", {
         withCredentials: true,
+        query : {
+          userId:user._id
+        }
       });
 
       setSocket(newSocket);
+
+      newSocket.on("OnlineUsers",(users) => {
+        setOnlineUser(users);
+      })
 
       return () => {
         newSocket.disconnect();

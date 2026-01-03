@@ -1,5 +1,6 @@
 const Conversation = require("../Models/conversation");
 const Message = require("../Models/messages");
+const { io, getreceiverSocketId } = require("../Socket/socket");
 
 exports.sendMessage = async (req,res) => {
     try{
@@ -29,6 +30,13 @@ exports.sendMessage = async (req,res) => {
 
         await conversation.save();
         await newMessage.save();
+
+        //Socket.io functionality to send message in real-time
+        const receiverSocketId = getreceiverSocketId(recevierId);
+        if(receiverSocketId) {
+            //io.to sends to specific socket id
+            io.to(receiverSocketId).emit("newMessage",newMessage)
+        }
 
         res.status(200).json(newMessage);
     } catch (err) {

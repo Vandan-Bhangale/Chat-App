@@ -1,14 +1,25 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../Context/authContext";
-import useConversation from "../Store/useConversation";
+import useConversation from "../Store/useConversation";       //Zustand store
+import { SocketContext } from "../Context/SocketContext";
 
 function Message({ message }) {
   const { user } = useContext(AuthContext);
-  const { selectedConversation } = useConversation();
+  const { selectedConversation,messages,setMessages } = useConversation();
   const fromMe = message.senderId === user._id;
   const chatClassName = fromMe ? "chat-end" : "chat-start";
   const profilePic = fromMe ? user.profilePic : selectedConversation?.profilePic;
   const bubbleColor = fromMe ? "bg-blue-500" : "";
+  const {socket} = useContext(SocketContext);
+
+  useEffect(() => {
+    socket?.on("newMessage",(newMessage) => {
+      setMessages([...messages,newMessage]);
+    })
+    return () => {
+    socket.off("newMessage");
+  };
+  },[socket]);
 
   return (
     <>

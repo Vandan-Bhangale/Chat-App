@@ -9,10 +9,10 @@ function Conversation({ conversation }) {
   const { onlineUser } = useContext(SocketContext);
   const isOnline = onlineUser.includes(conversation._id);
 
-  // console.log("onlineUser:", onlineUser);
-  // console.log("my id:", user?._id);
-  // console.log("conversation id:", conversation._id);
-  // console.log("IsOnline: ", isOnline);
+  console.log("onlineUser:", onlineUser);
+  console.log("my id:", user?._id);
+  console.log("conversation id:", conversation._id);
+  console.log("IsOnline: ", isOnline);
 
   return (
     <>

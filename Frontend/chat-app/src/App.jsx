@@ -13,6 +13,8 @@ import Signup from "./Pages/Signup";
 import Home from "./Pages/Home";
 import SideBar from "./components/SideBar";
 import ChatPage from "./Pages/ChatPage";
+import About from "./Pages/About";
+import Features from "./Pages/Feature";
 
 
 function App() {
@@ -31,6 +33,8 @@ function App() {
             <Route path="/home" element={<Home />}></Route>
             <Route path="/sideBar" element={<SideBar />}></Route>
             <Route path="/chatPage" element={<ChatPage />}></Route>
+            <Route path="/about" element={<About />}></Route>
+            <Route path="/feature" element={<Features />}></Route>
           </Routes>
         </Router>
     </>

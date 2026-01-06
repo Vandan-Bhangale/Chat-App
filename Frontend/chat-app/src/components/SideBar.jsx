@@ -1,9 +1,18 @@
+import useConversation from "../Store/useConversation";
 import Conversations from "./Conversations";
 import SearchInput from "./SearchInput";
 
 function SideBar() {
+
+  const {selectedConversation} = useConversation();
+
   return (
-    <div className="w-[30%] border-r border-gray-700 flex flex-col">
+    <div
+      className={`
+        w-full md:w-[30%] border-r border-gray-700 flex flex-col
+        ${selectedConversation ? "hidden md:flex" : "flex"}
+      `}
+    >
       <div className="p-2 text-xl font-bold">
         Chats
       </div>

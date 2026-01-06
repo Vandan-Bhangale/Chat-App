@@ -18,7 +18,7 @@ function NavBar() {
 
   return (
   <>
-    <nav className="w-full z-50">
+    <nav className="w-full z-50 ">
       <div className="flex items-center justify-between px-6 py-2">
 
         {/* Logo */}
@@ -33,10 +33,10 @@ function NavBar() {
 
         {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-6 text-gray-400">
-          <a href="#features" className="hover:text-white transition">
+          <a href="/feature" className="hover:text-white transition">
             Features
           </a>
-          <a href="#about" className="hover:text-white transition">
+          <a href="/about" className="hover:text-white transition">
             About
           </a>
 

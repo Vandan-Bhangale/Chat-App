@@ -6,11 +6,10 @@ The application supports secure authentication, real-time messaging, and online/
 --- 
 
 ### 🚀 Live Demo
-```
+
 Frontend (Vercel):
 https://chat-app-nine-zeta-56.vercel.app/
 
-```
 ---
 ### 🛠 Tech Stack
 #### Frontend

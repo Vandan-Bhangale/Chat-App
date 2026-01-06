@@ -7,7 +7,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ["https://chat-app-nine-zeta-56.vercel.app"],      //Frontend URL
+    origin: ["http://localhost:5173"],      //Frontend URL
     credentials: true,
   },
 });

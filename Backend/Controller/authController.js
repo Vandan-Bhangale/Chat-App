@@ -53,8 +53,8 @@ exports.postLogin = async (req, res) => {
     //Store token in cookie
     res.cookie("jwt", token, {
       httpOnly: true, // prevents XSS
-      // secure: true,        //For production
-      // sameSite: "none",    //For production
+      secure: true,        //For production
+      sameSite: "none",    //For production
       maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
     });
 

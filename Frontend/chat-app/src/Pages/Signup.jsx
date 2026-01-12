@@ -1,7 +1,7 @@
 import { Form, Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast"
 
 function Signup() {
@@ -154,6 +154,11 @@ const handleSubmit = async (values) => {
             >
               Register
             </button>
+
+            <p className="text-black text-center">Or</p>
+            <div className="text-black text-center">
+              <span>Already have an Account? </span><Link to="/login" className="text-blue-600">Login</Link>
+            </div>
           </Form>
         )}
       </Formik>

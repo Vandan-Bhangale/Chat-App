@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Context/authContext.jsx";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
@@ -90,6 +91,11 @@ function Login() {
             >
               Sign In
             </button>
+
+            <p className="text-black text-center">Or</p>
+            <div className="text-black text-center">
+                <span>Don't have an Account </span><Link to="/register" className="text-blue-600">Register here</Link>
+            </div>
           </Form>
         )}
       </Formik>

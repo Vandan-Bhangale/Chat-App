@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Conversation from "./Conversation";
 import axios from "axios";
 
-function Conversations() {
+function Conversations({searchTerm}) {
   const [loading, setLoading] = useState(false);
   const [conversations, setConversations] = useState([]);
 
@@ -32,9 +32,13 @@ function Conversations() {
     return <p>Loading...</p>;
   }
 
+  const filteredConversations = conversations.filter((conversation) => 
+    conversation.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <>
-      {conversations.map((conversation) => (
+      {filteredConversations.map((conversation) => (
         <Conversation
           key={conversation._id}
           conversation={conversation}

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import useConversation from "../Store/useConversation";
 import Conversations from "./Conversations";
 import SearchInput from "./SearchInput";
@@ -5,6 +6,7 @@ import SearchInput from "./SearchInput";
 function SideBar() {
 
   const {selectedConversation} = useConversation();
+  const [searchTerm,setSearchTerm] = useState("");
 
   return (
     <div
@@ -18,13 +20,13 @@ function SideBar() {
       </div>
 
       <div className="px-3">
-        <SearchInput />
+        <SearchInput setSearchTerm={setSearchTerm} />
       </div>
 
       <div className="divider my-2"></div>
 
       <div className="flex-1 overflow-y-auto px-2">
-        <Conversations />
+        <Conversations searchTerm={searchTerm}/>
       </div>
     </div>
   );

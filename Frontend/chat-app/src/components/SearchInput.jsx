@@ -1,4 +1,4 @@
-function SearchInput() {
+function SearchInput({setSearchTerm}) {
   return (
     <>
       <label className="input">
@@ -18,7 +18,7 @@ function SearchInput() {
             <path d="m21 21-4.3-4.3"></path>
           </g>
         </svg>
-        <input type="search" required placeholder="Search" />
+        <input type="search" required placeholder="Search" onChange={(e) => setSearchTerm(e.target.value)}/>
       </label>
     </>
   );

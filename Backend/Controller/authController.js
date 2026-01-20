@@ -7,15 +7,14 @@ exports.postRegister = async (req,res) => {
     try{
         const hashedPassword = await bcrypt.hash(password,12);
 
-        const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${name}`;
-        const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${name}`;
+        const profilePic = `https://ui-avatars.com/api/?name=${name}&background=0D8ABC&color=fff`
 
         const newUser = new userModel ({
             name,
             email,
             password:hashedPassword,
             gender,
-            profilePic: gender === "male" ? boyProfilePic : girlProfilePic
+            profilePic
         });
 
         await newUser.save();

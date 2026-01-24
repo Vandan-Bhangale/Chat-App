@@ -7,7 +7,7 @@ function Conversation({ conversation }) {
   const { selectedConversation, setSelectedConversation } = useConversation();
   const { user } = useContext(AuthContext);
   const { onlineUser } = useContext(SocketContext);
-  const isOnline = onlineUser.includes(conversation._id);
+  const isOnline = onlineUser?.includes(conversation._id);
 
   console.log("onlineUser:", onlineUser);
   console.log("my id:", user?._id);

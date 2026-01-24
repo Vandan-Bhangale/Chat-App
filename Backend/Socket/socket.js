@@ -20,32 +20,39 @@ const getreceiverSocketId = (receiverId) => {
 
 
 io.on("connection", (socket) => {
-  console.log("Socket connection initiated");
   console.log("New client connected", socket.id);
+
   const userId = socket.handshake.query.userId;
 
-  if (userId && userId !== 'undefined') {
+  if (userId && userId !== "undefined") {
     if (!userSocketMap[userId]) {
-      userSocketMap[userId] = [];
+      userSocketMap[userId] = new Set();
     }
-    userSocketMap[userId].push(socket.id);
+    userSocketMap[userId].add(socket.id);
     socket.userId = userId;
   }
 
-  io.emit("OnlineUsers", Object.keys(userSocketMap));
+  // Send online users ONLY to this socket
+  socket.emit("OnlineUsers", Object.keys(userSocketMap));
+
+  // Also broadcast to others
+  socket.broadcast.emit("OnlineUsers", Object.keys(userSocketMap));
 
   socket.on("disconnect", () => {
-    console.log("A user disconnected", socket.id);
-    if (userId && userSocketMap[userId]) {
-      userSocketMap[userId] = userSocketMap[userId].filter(
-        (id) => id !== socket.id
-      );
-      if (userSocketMap[userId].length === 0) {
-        delete userSocketMap[userId];
+    console.log("User disconnected", socket.id);
+
+    const uid = socket.userId;
+    if (uid && userSocketMap[uid]) {
+      userSocketMap[uid].delete(socket.id);
+
+      if (userSocketMap[uid].size === 0) {
+        delete userSocketMap[uid];
       }
     }
+
     io.emit("OnlineUsers", Object.keys(userSocketMap));
   });
 });
+
 
 module.exports = { app, io, server, getreceiverSocketId};

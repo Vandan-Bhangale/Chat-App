@@ -19,6 +19,10 @@ const getreceiverSocketId = (receiverId) => {
 }
 
 
+const emitOnlineUsers = () => {
+  io.emit("OnlineUsers", Object.keys(userSocketMap));
+};
+
 io.on("connection", (socket) => {
   console.log("New client connected", socket.id);
 
@@ -32,11 +36,8 @@ io.on("connection", (socket) => {
     socket.userId = userId;
   }
 
-  // Send online users ONLY to this socket
-  socket.emit("OnlineUsers", Object.keys(userSocketMap));
-
-  // Also broadcast to others
-  socket.broadcast.emit("OnlineUsers", Object.keys(userSocketMap));
+  // Emit to ALL devices
+  emitOnlineUsers();
 
   socket.on("disconnect", () => {
     console.log("User disconnected", socket.id);
@@ -50,9 +51,11 @@ io.on("connection", (socket) => {
       }
     }
 
-    io.emit("OnlineUsers", Object.keys(userSocketMap));
+    // Again emit to ALL devices
+    emitOnlineUsers();
   });
 });
+
 
 
 module.exports = { app, io, server, getreceiverSocketId};

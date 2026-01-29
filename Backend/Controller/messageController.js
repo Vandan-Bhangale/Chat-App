@@ -1,68 +1,63 @@
 const Conversation = require("../Models/conversation");
 const Message = require("../Models/messages");
-const { io, getreceiverSocketId } = require("../Socket/socket");
+const { emitToUser } = require("../Socket/socket");
 
-exports.sendMessage = async (req,res) => {
-    try{
-        const {message} = req.body;
-        const {id:recevierId} = req.params;
-        const senderId = req.user._id;
+exports.sendMessage = async (req, res) => {
+  try {
+    const { message } = req.body;
+    const { id: recevierId } = req.params;
+    const senderId = req.user._id;
 
-        let conversation = await Conversation.findOne({
-            participants:{$all :[recevierId,senderId]}
-        })
+    let conversation = await Conversation.findOne({
+      participants: { $all: [recevierId, senderId] },
+    });
 
-        if(!conversation) {
-            conversation = await Conversation.create({
-                participants:[recevierId,senderId],
-            })
-        }
-
-        const newMessage = new Message ({
-            recevierId,
-            senderId,
-            message
-        });
-
-        if(newMessage) {
-            conversation.messages.push(newMessage._id);
-        }
-
-        await conversation.save();
-        await newMessage.save();
-
-        //Socket.io functionality to send message in real-time
-        const receiverSocketId = getreceiverSocketId(recevierId);
-        if(receiverSocketId) {
-            //io.to sends to specific socket id
-            io.to(receiverSocketId).emit("newMessage",newMessage)
-        }
-
-        res.status(200).json(newMessage);
-    } catch (err) {
-        console.log("Error while sending message: ",err.message);
-        return res.status(500).json({error:"Internal server error."});
+    if (!conversation) {
+      conversation = await Conversation.create({
+        participants: [recevierId, senderId],
+      });
     }
-}
 
-exports.getMessage = async (req,res) => {
-    try {
-        const {id:userToChatId} = req.params;
-        const senderId = req.user._id;
+    const newMessage = new Message({
+      recevierId,
+      senderId,
+      message,
+    });
 
-        const conversation = await Conversation.findOne({
-            participants:{$all: [userToChatId,senderId]}
-        }).populate("messages");
-
-        if(!conversation) {
-            return res.status(400).json({error:"No Conversation found."});
-        }
-
-        const message = conversation.messages;
-        res.status(200).json(message);
-
-    } catch (err) {
-        console.log("Error in getMessage",err.message);
-        return res.status(500).json({error:"Internal server error."});
+    if (newMessage) {
+      conversation.messages.push(newMessage._id);
     }
-}
+
+    await conversation.save();
+    await newMessage.save();
+
+    //Socket.io functionality to send message in real-time to all receiver's sockets (multi-tab support)
+    emitToUser(recevierId, "newMessage", newMessage);
+
+    res.status(200).json(newMessage);
+  } catch (err) {
+    console.log("Error while sending message: ", err.message);
+    return res.status(500).json({ error: "Internal server error." });
+  }
+};
+
+exports.getMessage = async (req, res) => {
+  try {
+    const { id: userToChatId } = req.params;
+    const senderId = req.user._id;
+
+    const conversation = await Conversation.findOne({
+      participants: { $all: [userToChatId, senderId] },
+    }).populate("messages");
+
+    if (!conversation) {
+      return res.status(400).json({ error: "No Conversation found." });
+    }
+
+    const message = conversation.messages;
+    res.status(200).json(message);
+  } catch (err) {
+    console.log("Error in getMessage", err.message);
+    return res.status(500).json({ error: "Internal server error." });
+  }
+};

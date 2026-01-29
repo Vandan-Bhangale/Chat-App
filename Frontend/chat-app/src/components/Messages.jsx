@@ -1,12 +1,14 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
 import Message from "./Message";
 import { useEffect } from "react";
 import useConversation from "../Store/useConversation";
 import axios from "axios";
+import { SocketContext } from "../Context/SocketContext";
 
 function Messages() {
   const [loading, setLoading] = useState(false);
   const { messages, setMessages, selectedConversation } = useConversation();
+  const { socket } = useContext(SocketContext);
 
   const bottomRef = useRef(null);
 
@@ -34,6 +36,21 @@ function Messages() {
     };
     fetchMessages();
   }, [selectedConversation]);
+
+  // Listen for new messages via socket
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleNewMessage = (newMessage) => {
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+    };
+
+    socket.on("newMessage", handleNewMessage);
+
+    return () => {
+      socket.off("newMessage", handleNewMessage);
+    };
+  }, [socket, setMessages]);
 
   return (
     <>

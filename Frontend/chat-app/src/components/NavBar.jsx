@@ -2,6 +2,7 @@ import { useContext, useState, useRef, useEffect } from "react";
 import { AuthContext } from "../Context/authContext.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/Logo.png";
+import Avatar from "../assets/avatar.jpg";
 
 function NavBar() {
   const { user, isAuthenticated, logout } = useContext(AuthContext);
@@ -20,7 +21,7 @@ function NavBar() {
     navigate("/");
   };
 
-  /* ---------------- Desktop Outside Click ---------------- */
+  /* Desktop Outside Click  */
   useEffect(() => {
     if (!open) return;
 
@@ -34,7 +35,7 @@ function NavBar() {
     return () => document.removeEventListener("mousedown", handler);
   }, [open]);
 
-  /* ---------------- Mobile Outside Click ---------------- */
+  /* Mobile Outside Click  */
   useEffect(() => {
     if (!isOpen) return;
 
@@ -62,7 +63,7 @@ function NavBar() {
           <span>Talkie</span>
         </Link>
 
-        {/* ---------------- Desktop Menu ---------------- */}
+        {/* Desktop Menu  */}
         <div className="hidden md:flex items-center gap-6 text-gray-400">
           <Link to="/feature" className="hover:text-white">Features</Link>
           <Link to="/about" className="hover:text-white">About</Link>
@@ -95,17 +96,26 @@ function NavBar() {
           )}
         </div>
 
-        {/* ---------------- Mobile Hamburger ---------------- */}
+        {/* Mobile Hamburger  */}
         <div className="relative md:hidden z-10" ref={mobileRef}>
           <button
             className="text-white text-2xl"
             onClick={() => setIsOpen(!isOpen)}
           >
-             <img
+            {isAuthenticated ? (
+              <img
                 src={user?.profilePic}
                 alt={user?.name ?? "avatar"}
                 className="w-10 h-10 rounded-full cursor-pointer"
               />
+            ): (
+              <img
+                src={Avatar}
+                alt={"avatar"}
+                className="w-10 h-10 rounded-full cursor-pointer"
+              />
+            )}
+             
           </button>
 
           {isOpen && (

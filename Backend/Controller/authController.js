@@ -75,6 +75,9 @@ exports.postLogin = async (req, res) => {
 exports.getLogout = async (req,res) => {
     try {
       res.cookie("jwt","", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
         maxAge:0
       });
 

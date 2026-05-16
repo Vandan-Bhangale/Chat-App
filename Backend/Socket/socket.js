@@ -44,16 +44,37 @@ const emitOnlineUsers = () => {
 io.on("connection", (socket) => {
   console.log("New client connected:", socket.id);
 
-  const userId = socket.handshake.query.userId;
+  const rawUserId = socket.handshake.auth?.userId || socket.handshake.query?.userId;
+  const userId = rawUserId ? String(rawUserId) : null;
 
-  if (userId && userId !== "undefined") {
-    if (!userSocketMap.has(userId)) {
-      userSocketMap.set(userId, new Set());
+  const addUserToMap = (id) => {
+    const normalizedId = id ? String(id) : null;
+    if (!normalizedId || normalizedId === "undefined") return;
+
+    if (socket.userId && socket.userId !== normalizedId) {
+      const existingSet = userSocketMap.get(socket.userId);
+      if (existingSet) {
+        existingSet.delete(socket.id);
+        if (existingSet.size === 0) {
+          userSocketMap.delete(socket.userId);
+        }
+      }
     }
 
-    userSocketMap.get(userId).add(socket.id);
-    socket.userId = userId;
-  }
+    if (!userSocketMap.has(normalizedId)) {
+      userSocketMap.set(normalizedId, new Set());
+    }
+    userSocketMap.get(normalizedId).add(socket.id);
+    socket.userId = normalizedId;
+  };
+
+  addUserToMap(userId);
+
+  // Support explicit addUser event from client if query param is missing
+  socket.on("addUser", (id) => {
+    addUserToMap(id);
+    emitOnlineUsers();
+  });
 
   // Emit updated online users
   emitOnlineUsers();
